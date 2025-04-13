@@ -1,8 +1,46 @@
 
-import { Mail, MessageSquare, Send } from "lucide-react";
+import { Mail, MessageSquare, Send, Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+type FormData = {
+  name: string;
+  email: string;
+  message: string;
+};
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
+  
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    try {
+      // In a real application, you would send this data to your backend
+      console.log("Form submitted:", data);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show success message
+      toast.success("Message sent successfully!", {
+        description: "Thank you for reaching out. I'll get back to you soon."
+      });
+      
+      // Reset form
+      reset();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to send message", {
+        description: "Please try again later or contact me directly via email."
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Animation variants for reuse
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -209,6 +247,7 @@ const Contact = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
+                onSubmit={handleSubmit(onSubmit)}
               >
                 <motion.div 
                   className="space-y-1 sm:space-y-2"
@@ -218,11 +257,18 @@ const Contact = () => {
                   <motion.input 
                     type="text" 
                     id="name" 
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-stellar-purple/50 transition-all"
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md bg-white/5 border ${errors.name ? 'border-red-500' : 'border-white/10'} text-white text-sm focus:outline-none focus:ring-2 focus:ring-stellar-purple/50 transition-all`}
                     placeholder="Your name"
                     whileFocus={{ borderColor: "rgba(155, 135, 245, 0.5)" }}
                     whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.08)" }}
+                    {...register("name", { 
+                      required: "Name is required",
+                      minLength: { value: 2, message: "Name must be at least 2 characters" }
+                    })}
                   />
+                  {errors.name && (
+                    <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
+                  )}
                 </motion.div>
                 
                 <motion.div 
@@ -233,11 +279,21 @@ const Contact = () => {
                   <motion.input 
                     type="email" 
                     id="email" 
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-stellar-purple/50 transition-all"
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md bg-white/5 border ${errors.email ? 'border-red-500' : 'border-white/10'} text-white text-sm focus:outline-none focus:ring-2 focus:ring-stellar-purple/50 transition-all`}
                     placeholder="Your email"
                     whileFocus={{ borderColor: "rgba(155, 135, 245, 0.5)" }}
                     whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.08)" }}
+                    {...register("email", { 
+                      required: "Email is required",
+                      pattern: { 
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 
+                        message: "Invalid email address" 
+                      }
+                    })}
                   />
+                  {errors.email && (
+                    <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+                  )}
                 </motion.div>
                 
                 <motion.div 
@@ -248,35 +304,75 @@ const Contact = () => {
                   <motion.textarea 
                     id="message" 
                     rows={4}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-stellar-purple/50 transition-all resize-none"
+                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md bg-white/5 border ${errors.message ? 'border-red-500' : 'border-white/10'} text-white text-sm focus:outline-none focus:ring-2 focus:ring-stellar-purple/50 transition-all resize-none`}
                     placeholder="Your message"
                     whileFocus={{ borderColor: "rgba(155, 135, 245, 0.5)" }}
                     whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.08)" }}
+                    {...register("message", { 
+                      required: "Message is required",
+                      minLength: { value: 10, message: "Message must be at least 10 characters" }
+                    })}
                   />
+                  {errors.message && (
+                    <p className="text-red-400 text-xs mt-1">{errors.message.message}</p>
+                  )}
                 </motion.div>
                 
                 <motion.button 
                   type="submit" 
                   className="gradient-button w-full flex items-center justify-center gap-2 button-hover ripple-effect py-2 sm:py-3 text-sm"
-                  whileHover={{ scale: 1.02, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02, boxShadow: isSubmitting ? "none" : "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                   transition={{ duration: 0.2 }}
                   variants={itemVariants}
+                  disabled={isSubmitting}
                 >
-                  <motion.span
-                    initial={{ opacity: 1 }}
-                    whileHover={{ x: -4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    Send Message
-                  </motion.span>
-                  <motion.span
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Send className="w-3 h-3 sm:w-4 sm:h-4" />
-                  </motion.span>
+                  {isSubmitting ? (
+                    <>
+                      <motion.span
+                        initial={{ opacity: 1 }}
+                        animate={{ opacity: 0.8 }}
+                        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+                      >
+                        Sending...
+                      </motion.span>
+                      <motion.div 
+                        className="ml-1"
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      >
+                        <svg className="w-4 h-4" viewBox="0 0 24 24">
+                          <circle 
+                            cx="12" 
+                            cy="12" 
+                            r="10" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            fill="none" 
+                            strokeDasharray="40 60" 
+                          />
+                        </svg>
+                      </motion.div>
+                    </>
+                  ) : (
+                    <>
+                      <motion.span
+                        initial={{ opacity: 1 }}
+                        whileHover={{ x: -4 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        Send Message
+                      </motion.span>
+                      <motion.span
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 4 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Send className="w-3 h-3 sm:w-4 sm:h-4" />
+                      </motion.span>
+                    </>
+                  )}
                 </motion.button>
               </motion.form>
             </motion.div>

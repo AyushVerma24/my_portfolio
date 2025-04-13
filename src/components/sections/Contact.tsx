@@ -18,19 +18,26 @@ const Contact = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // In a real application, you would send this data to your backend
-      console.log("Form submitted:", data);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Show success message
-      toast.success("Message sent successfully!", {
-        description: "Thank you for reaching out. I'll get back to you soon."
+      const response = await fetch('/functions/submit-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
       });
-      
-      // Reset form
-      reset();
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success("Message sent successfully!", {
+          description: "Thank you for reaching out. I'll get back to you soon."
+        });
+        
+        // Reset form
+        reset();
+      } else {
+        throw new Error(result.error || 'Failed to send message');
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to send message", {

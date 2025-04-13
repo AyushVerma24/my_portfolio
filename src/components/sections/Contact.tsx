@@ -18,26 +18,25 @@ const Contact = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('/functions/submit-contact', {
+      // Import the supabase client
+      const { supabase } = await import('@/integrations/supabase/client');
+      
+      // Invoke the edge function using Supabase client
+      const { data: result, error } = await supabase.functions.invoke('submit-contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+        body: data
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        toast.success("Message sent successfully!", {
-          description: "Thank you for reaching out. I'll get back to you soon."
-        });
-        
-        // Reset form
-        reset();
-      } else {
-        throw new Error(result.error || 'Failed to send message');
+      if (error) {
+        throw error;
       }
+
+      toast.success("Message sent successfully!", {
+        description: "Thank you for reaching out. I'll get back to you soon."
+      });
+      
+      // Reset form
+      reset();
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to send message", {

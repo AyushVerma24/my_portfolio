@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 230 30% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 230 20% 13%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 230 25% 14%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 252 100% 64%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 230 20% 20%;
+    --muted-foreground: 215 20% 75%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 230 15% 25%;
+    --input: 230 15% 25%;
+    --ring: 230 84% 70%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 230 30% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 252 100% 64%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 230 20% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 230 15% 25%;
+    --sidebar-ring: 252 100% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-stellar-dark text-foreground font-sans;
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(110, 68, 255, 0.15) 0%, transparent 25%),
+      radial-gradient(circle at 80% 60%, rgba(14, 165, 233, 0.15) 0%, transparent 25%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold;
+  }
+}
+
+@layer components {
+  .section {
+    @apply py-16 md:py-24 px-4;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-center relative;
+  }
+  
+  .section-title::after {
+    content: "";
+    @apply absolute left-1/2 -translate-x-1/2 bottom-0 w-20 h-1 bg-gradient-stellar rounded-full;
+  }
+
+  .nav-link {
+    @apply relative text-sm uppercase tracking-wider font-medium text-foreground/80 hover:text-foreground transition-colors duration-300;
+  }
+
+  .nav-link::after {
+    content: "";
+    @apply absolute left-0 bottom-0 h-0.5 w-0 bg-stellar-purple transition-all duration-300 ease-in-out;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .gradient-button {
+    @apply bg-gradient-stellar hover:opacity-90 text-white font-medium px-6 py-3 rounded-md transition-all duration-300 shadow-lg hover:shadow-stellar-purple/20;
+  }
+
+  .outline-button {
+    @apply border border-white/20 hover:border-white/40 text-white font-medium px-6 py-3 rounded-md transition-all duration-300;
+  }
+
+  .skill-tag {
+    @apply text-sm px-3 py-1 rounded-full bg-stellar-purple/20 text-stellar-purple/90 border border-stellar-purple/30;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-stellar text-transparent bg-clip-text;
+    background-size: 200% auto;
+    animation: shine 4s linear infinite;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 0 40px rgba(110, 68, 255, 0.5);
+  }
+  
+  /* Animated underline effect */
+  .animated-underline {
+    @apply relative;
+  }
+  
+  .animated-underline::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-gradient-stellar transition-all duration-300;
+  }
+  
+  .animated-underline:hover::after {
+    @apply w-full;
+  }
+  
+  /* Glow effect */
+  .glow-on-hover {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  
+  .glow-on-hover::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-stellar opacity-0 transition-opacity duration-300;
+    z-index: -1;
+    filter: blur(15px);
+  }
+  
+  .glow-on-hover:hover::before {
+    @apply opacity-70;
+  }
+  
+  /* Parallax effect */
+  .parallax-item {
+    transform: translateZ(0);
+    transition: transform 0.2s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(110, 68, 255, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(110, 68, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(110, 68, 255, 0);
+  }
+}

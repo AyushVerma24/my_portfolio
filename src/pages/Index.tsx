@@ -3,7 +3,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import Hero from "../components/sections/Hero";
 import OptimizedAbout from "../components/sections/OptimizedAbout";
-import Skills from "../components/sections/Skills";
+import OptimizedSkills from "../components/sections/OptimizedSkills";
 import Projects from "../components/sections/Projects";
 import Experience from "../components/sections/Experience";
 import Contact from "../components/sections/Contact";
@@ -29,7 +29,7 @@ const Index = () => {
       >
         <Hero />
         <OptimizedAbout />
-        <Skills />
+        <OptimizedSkills />
         <Projects />
         
         {/* Lazy load less critical sections for better performance */}

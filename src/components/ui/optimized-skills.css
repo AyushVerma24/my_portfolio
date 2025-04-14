@@ -1,0 +1,80 @@
+
+/* Performance-optimized animations for Skills section */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.optimized-float {
+  animation: optimizedFloat 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes optimizedFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.optimized-pulse {
+  animation: optimizedPulse 4s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+@keyframes optimizedPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+/* Apply hardware acceleration */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Create static classes instead of dynamic animations */
+.skill-item {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.skill-item:hover {
+  transform: translateX(4px);
+}
+
+.tech-item {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.tech-item:hover {
+  transform: scale(1.05);
+}
+
+/* Use CSS transitions for smoother animations */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.delayed-transition {
+  transition-delay: 0.1s;
+}

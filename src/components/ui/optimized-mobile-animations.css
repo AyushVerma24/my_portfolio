@@ -1,0 +1,90 @@
+
+/* Mobile-optimized animations with performance focus */
+
+/* Subtle float animation - hardware accelerated */
+@keyframes optimized-float-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Subtle pulse using only opacity */
+@keyframes optimized-pulse-subtle {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Optimized horizontal shift animation */
+@keyframes optimized-shift-horizontal {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+/* Apply will-change for better performance */
+.optimized-mobile-float {
+  animation: optimized-float-subtle 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.optimized-mobile-pulse {
+  animation: optimized-pulse-subtle 3s ease-in-out infinite;
+  will-change: opacity;
+}
+
+.optimized-mobile-shift {
+  animation: optimized-shift-horizontal 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Simplified card stack with reduced transform complexity */
+.optimized-mobile-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.optimized-mobile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove expensive radial gradient and use simpler effects */
+.optimized-mobile-glow {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.optimized-mobile-glow:hover {
+  box-shadow: 0 0 15px rgba(155, 135, 245, 0.3);
+}
+
+/* Static transforms instead of animations for grid layouts */
+@media (min-width: 640px) {
+  .optimized-mobile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .optimized-mobile-grid > *:nth-child(even) {
+    transform: translateY(1rem);
+  }
+}
+
+/* Replace animations with simple static transforms for zigzag patterns */
+.optimized-mobile-zigzag > *:nth-child(odd) {
+  transform: translateX(-3px);
+}
+
+.optimized-mobile-zigzag > *:nth-child(even) {
+  transform: translateX(3px);
+}

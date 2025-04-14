@@ -1,0 +1,116 @@
+
+/* Performance-optimized animations */
+
+/* Use transform and opacity for better performance */
+/* These properties trigger only composite operations in the browser rendering pipeline */
+
+/* Simplified glow effect with reduced complexity */
+@keyframes optimized-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(155, 135, 245, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(155, 135, 245, 0.4);
+  }
+}
+
+.optimized-glow {
+  animation: optimized-glow 3s linear infinite;
+  will-change: box-shadow;
+}
+
+/* Hardware-accelerated floating animation */
+@keyframes optimized-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.optimized-float {
+  animation: optimized-float 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Optimized pulse animation using only transform and opacity */
+@keyframes optimized-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.optimized-pulse {
+  animation: optimized-pulse 4s linear infinite;
+  will-change: transform, opacity;
+}
+
+/* Optimized staggered fade in (static classes, no loops) */
+.optimized-stagger > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  will-change: transform, opacity;
+}
+
+.optimized-stagger.in-view > *:nth-child(1) { 
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.optimized-stagger.in-view > *:nth-child(2) { 
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.optimized-stagger.in-view > *:nth-child(3) { 
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s;
+}
+
+.optimized-stagger.in-view > *:nth-child(4) { 
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+/* Simplified hover transitions */
+.optimized-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.optimized-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Stateful transitions rather than animations for button effects */
+.optimized-button {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.optimized-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Replace text gradient animation with static gradient to avoid repaints */
+.optimized-gradient-text {
+  background: linear-gradient(90deg, 
+    rgba(155, 135, 245, 1) 0%, 
+    rgba(14, 165, 233, 1) 50%, 
+    rgba(155, 135, 245, 1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

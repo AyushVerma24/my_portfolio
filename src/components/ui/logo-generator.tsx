@@ -1,13 +1,15 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-// This component is only used to generate a PNG version of the logo
+// This component generates and displays PNG versions of the logo
 const LogoGenerator: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [iconGenerated, setIconGenerated] = useState(false);
   
+  // Generate the icon only once
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || iconGenerated) return;
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -74,10 +76,39 @@ const LogoGenerator: React.FC = () => {
     ctx.arc(256, 256, 252, 0, Math.PI * 2);
     ctx.stroke();
     
-    // Export as PNG - in a real app, you would download this
-    // For now, we'll just log to console
-    console.log('Logo generated - in a real app, you would save this as PNG');
-  }, []);
+    // Generate a smaller 32x32 version for favicon
+    const smallCanvas = document.createElement('canvas');
+    smallCanvas.width = 32;
+    smallCanvas.height = 32;
+    const smallCtx = smallCanvas.getContext('2d');
+    if (smallCtx) {
+      smallCtx.drawImage(canvas, 0, 0, 512, 512, 0, 0, 32, 32);
+      
+      // Force browser to recognize the favicon update by creating a link and updating it
+      const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.setAttribute('rel', 'icon');
+      link.setAttribute('href', smallCanvas.toDataURL('image/png'));
+      document.head.appendChild(link);
+    }
+    
+    // Generate 192x192 version for app icon
+    const mediumCanvas = document.createElement('canvas');
+    mediumCanvas.width = 192;
+    mediumCanvas.height = 192;
+    const mediumCtx = mediumCanvas.getContext('2d');
+    if (mediumCtx) {
+      mediumCtx.drawImage(canvas, 0, 0, 512, 512, 0, 0, 192, 192);
+      
+      // Force browser to recognize the apple touch icon update
+      const appleLink = document.querySelector("link[rel='apple-touch-icon']") || document.createElement('link');
+      appleLink.setAttribute('rel', 'apple-touch-icon');
+      appleLink.setAttribute('href', mediumCanvas.toDataURL('image/png'));
+      document.head.appendChild(appleLink);
+    }
+    
+    console.log('AV logo icon generated and updated');
+    setIconGenerated(true);
+  }, [iconGenerated]);
   
   return (
     <div style={{ display: 'none' }}>

@@ -39,8 +39,8 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <a href="#home" className="text-lg sm:text-xl font-bold">
-          <span className="text-stellar-purple">A</span><span className="text-white">V</span>
+        <a href="#home" className="text-2xl sm:text-3xl font-bold tracking-tight inline-block">
+          <span className="text-gradient bg-gradient-to-r from-stellar-purple to-stellar-blue bg-clip-text text-transparent">AV</span>
         </a>
 
         {/* Desktop Navigation */}

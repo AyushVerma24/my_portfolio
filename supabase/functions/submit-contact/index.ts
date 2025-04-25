@@ -9,7 +9,7 @@ const corsHeaders = {
 }
 
 // Initialize Resend with your API key
-const resend = new Resend(Deno.env.get('RESEND_API_KEY') || 're_LMxBc6Rm_KWueu4NJEbPbgANNEQwa5AKK');
+const resend = new Resend(Deno.env.get('RESEND_API_KEY') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoY2htZmd2dnJ5bnZkcW52YmtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1NjkxMzgsImV4cCI6MjA2MDE0NTEzOH0.0Ze7PJoR-I025evZQt8olHRQb5VHmNxMsgHmeqkKh1M');
 
 // Define the admin email where you want to receive notifications
 const ADMIN_EMAIL = "verma24122003@gmail.com"; // This should be your email
